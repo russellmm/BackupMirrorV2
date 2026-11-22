@@ -1,5 +1,5 @@
 [Unit]
-Description=Backup Mirror - one-way folder mirroring with a web dashboard
+Description=Backup Mirror - folder sync and backup with a web dashboard
 Documentation=https://github.com/russellmm/BackupMirrorV2
 # Network shares (cifs/nfs) must be mounted before mirroring starts.
 After=network-online.target remote-fs.target local-fs.target

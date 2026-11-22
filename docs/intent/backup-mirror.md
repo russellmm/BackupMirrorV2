@@ -1,13 +1,15 @@
 # Intent: Backup Mirror
 
-**Status:** Confirmed (v1 2026-07-26; revised for v2 2026-11-21)
+**Status:** Confirmed (v1 2026-07-26; revised for v2 2026-11-21; wording updated for 2.1 options)
 **Spec:** [../spec/backup-mirror.md](../spec/backup-mirror.md)
 
 ## Outcome
 
-Keep chosen folders as **exact one-way mirrors** on another disk, a NAS or a network share, on the
-owner's Windows 11 workstation **and on bare-metal Linux servers**. The source is the truth; adds,
-updates, renames and deletes propagate.
+Keep copies of chosen folders on another disk, a NAS or a network share, on the owner's Windows 11
+workstation **and on bare-metal Linux servers**. Each sync reads one side and writes the other. By
+default the source is the truth and adds, updates, renames and deletes propagate (an exact mirror);
+per mirror, the owner can instead sync the other way (restore) or limit which kinds of change are made
+(e.g. a backup that never deletes).
 
 - **User:** the owner only (personal and home-lab use, not a multi-user product).
 - **Why:** a durable second copy that can be trusted without manual copy rituals or babysitting.

@@ -1,34 +1,47 @@
 # Backup Mirror
 
-One-way, always-current folder mirroring for **Windows and Linux**, run by a background service
-with a modern web dashboard.
+Folder sync and backup for **Windows and Linux**: a background service keeps copies of your folders on
+another disk, a NAS or a network share, and a web dashboard lets you set it up, compare and watch it.
 
-- **Exact mirror**: new and changed files are copied, deleted files are removed, the source always wins.
-- **Realtime, scheduled or manual** jobs. Realtime picks up changes within seconds and also repairs the
-  mirror when someone deletes a file there. Schedules support several times a day on chosen weekdays,
-  and a run missed while the machine was off is caught up at start-up.
+Each mirror is a pair of folders, a **source** and a **destination**, and you decide what a sync does:
+
+- **Which way.** *Sync to Source* changes the destination to match the source (the normal backup).
+  *Sync to Destination* changes the source to match the destination, e.g. to restore from a backup
+  (run by hand only, never automatically).
+- **What changes.** Any mix of *copy missing files*, *update changed files* and *delete extra files*.
+  With all three on, the result is an exact mirror; turn *delete extra* off for a backup that only
+  ever adds and updates.
+- **What's included.** Subfolders on or off, hidden/system files on or off, and gitignore-style
+  exclusions (`node_modules`, `*.tmp`, `cache/**`).
+- **When.** Realtime (changes picked up within seconds; files deleted in the copy are put back),
+  scheduled (several times a day on chosen weekdays; a run missed while the machine was off is caught
+  up at start-up) or manual.
+
+A sync always reads one folder and writes the other. It is not two-way sync: changes made on both
+sides are not merged.
+
+## Features
+
+- **Compare before you sync**: every planned change listed and colour-coded (green copy/create,
+  orange update, red delete), filter by kind or path, uncheck anything, then apply exactly what you
+  reviewed. Nothing changes until you apply.
 - **Safe by design**: files are copied to a temp name and swapped in only when complete, transient
-  errors are retried, unreadable folders are skipped and reported (their mirrored copies are never
-  deleted), and large deletions wait for your review in the dashboard.
-- **Compare before you sync** (as in OpenDiff): every planned change listed and colour-coded (green
-  copy/create, orange update, red delete), filter by kind or path, uncheck anything, then apply exactly
-  what you reviewed.
-- **OpenDiff options per job**: *Sync to Source* (mirror matches source) or *Sync to Destination*
-  (source matches mirror, e.g. a restore; manual jobs only), include subfolders, include hidden/system
-  files (hidden on either side is left out), and copy missing / update changed / delete extra.
+  errors are retried, folders that can't be read are skipped and reported (nothing under them is
+  deleted), and a run that would delete more files than the mirror's safety limit waits for your review.
 - **Keep removed files** for N days: anything a sync deletes or overwrites is moved to a dated
-  `.backupmirror-trash` folder on the changed side instead (works on shares and Linux; covers overwrites).
-- **Exclusions** with gitignore-style patterns (`node_modules`, `*.tmp`, `cache/**`).
+  `.backupmirror-trash` folder on the changed side instead (works on shares and Linux).
 - **Dashboard** at <http://127.0.0.1:8737>: live progress, compact list or card view with search and
-  filters, activity history, service log, server-side folder picker (works on headless servers), light
-  and dark themes.
-- **Windows**: Windows service + tray app (status icon, notifications, native dashboard window that
-  remembers its position, size and maximized state).
-  Network-share sign-in per job, stored with DPAPI.
-- **Linux**: systemd service (`.deb` or tarball), POSIX permissions and ownership preserved, mount
-  network shares via `/etc/fstab`.
+  filters, pause/resume all or one mirror, activity history, service log, a folder picker that browses
+  as the service sees it (works on headless servers), light and dark themes.
+- **Windows**: Windows service + tray app (status icon, notifications, dashboard window that remembers
+  its position, size and maximized state). Per-mirror network-share sign-in, stored with DPAPI; mapped
+  drives and recently used shares are offered in the picker.
+- **Linux**: systemd service (`.deb` or tarball), POSIX permissions and ownership preserved, network
+  shares via `/etc/fstab` mounts.
 
 ## Install
+
+Download from [Releases](https://github.com/russellmm/BackupMirrorV2/releases).
 
 | Platform | Package | Command |
 |---|---|---|
@@ -44,7 +57,8 @@ Data lives in `C:\ProgramData\BackupMirror` (Windows) or `/var/lib/backupmirror`
 ## Using it
 
 1. **New mirror**: pick a source and a destination with *Browse* (the picker shows folders as the
-   service sees them, including network shares), choose when to sync, and what to sync.
+   service sees them, including network shares), choose when to sync, and under *What to sync* the
+   direction, change kinds and filters. The editor tells you whether the result is an exact mirror.
 2. **Compare** (on every mirror): see each change the next sync would make, uncheck what you don't
    want, and *Apply checked changes*. Nothing changes until you apply.
 3. **Sync now**, or let realtime/scheduled mirrors run. Progress, problems and history show on the

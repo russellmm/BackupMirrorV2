@@ -50,7 +50,7 @@ password from `BM_SUDO_PASSWORD_FILE` for unattended runs.
 
 ## Rules that must not regress
 
-1. One-way: the folder being read is never written. Sync to Destination is manual-only.
+1. A sync never writes the folder it reads (no two-way sync). Sync to Destination is manual-only.
 2. Copies are atomic (`.bmpart` → rename). Never delete under an unreadable source folder.
 3. Job config (`jobs.json`) and runtime (`state.json`) stay separate; only the service writes either.
 4. Requests during a run queue a re-run; they are never dropped.
@@ -89,6 +89,10 @@ password from `BM_SUDO_PASSWORD_FILE` for unattended runs.
   paused; "All paused" vs "Paused" labels; docs rewritten for v2.
 - **2.1.4:** tray dashboard window remembers position, size and maximized state
   (`%LOCALAPPDATA%\BackupMirror\window.json`; off-screen positions ignored).
+
+- **Unreleased (main):** README, intent doc, dashboard help text and service/package descriptions
+  reworded: the product is folder sync/backup with a chosen direction and change kinds, not only an
+  exact one-way mirror. Ships with the next version.
 
 ## Ideas not done
 

@@ -361,7 +361,7 @@ function heroModel() {
   const healthy = enabled.filter((j) => ['success', 'idle', 'running', 'queued'].includes(j.status)).length;
   const frac = enabled.length ? healthy / enabled.length : 1;
 
-  if (!jobs.length) return { cls: 'state-ok', ic: 'shield', frac: 0, title: "Let's protect your first folder", text: 'Create a mirror to keep an exact, always-current copy of a folder on another drive or a network share.' };
+  if (!jobs.length) return { cls: 'state-ok', ic: 'shield', frac: 0, title: "Let's protect your first folder", text: 'Create a mirror to keep a copy of a folder on another drive or a network share, in realtime, on a schedule or on demand.' };
   if (!state.armed) return { cls: 'state-paused', ic: 'pause', frac: 0, title: 'Paused — nothing is syncing', text: 'Your mirrors are on hold. Anything that changed meanwhile is caught up as soon as you resume.' };
   if (failed.length) return { cls: 'state-bad', ic: 'alert', frac, title: `${failed.length} mirror${failed.length > 1 ? 's' : ''} ${failed.length > 1 ? 'need' : 'needs'} attention`, text: failed.map((j) => `${j.name}: ${j.message || STATUS[j.status].label}`).join(' · ') };
   if (attention.length) return { cls: 'state-warn', ic: 'alert', frac, title: `${attention.length} mirror${attention.length > 1 ? 's are' : ' is'} waiting for you`, text: 'A large number of files would be deleted from a destination. Review and confirm to continue.' };
@@ -864,7 +864,9 @@ function settingsHtml() {
     </div>
     <div class="card"><h3>${icon('info')}How mirroring works</h3>
       <ul class="muted" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
-        <li>One-way: the source always wins. New and changed files are copied; files removed from the source are removed from the mirror.</li>
+        <li>Each sync reads one folder and writes the other. <em>Sync to Source</em> makes the destination match the source; <em>Sync to Destination</em> (manual only) does the reverse, e.g. a restore.</li>
+        <li>Per mirror, choose what a sync does: copy missing files, update changed files, delete extra files. All three give an exact mirror; without delete it is a backup that only adds and updates.</li>
+        <li>Use <em>Compare</em> to see every change before it happens.</li>
         <li>Files are copied to a temporary name and swapped in when complete, so an interrupted copy never leaves a broken file.</li>
         <li>If a run would delete more files than the job's safety limit, it waits for you to review first.</li>
         <li>Folders that can't be read are skipped and reported; their mirrored copies are never deleted.</li>

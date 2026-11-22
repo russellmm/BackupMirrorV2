@@ -39,7 +39,7 @@ Maintainer: russellmm <https://github.com/russellmm/BackupMirrorV2>
 Installed-Size: $SIZE_KB
 Depends: libc6, libgcc-s1, libstdc++6, zlib1g, libssl3 | libssl3t64, libicu-dev | libicu74 | libicu76 | libicu72 | libicu70
 Homepage: https://github.com/russellmm/BackupMirrorV2
-Description: One-way folder mirroring service with a web dashboard
+Description: Folder sync and backup service with a web dashboard
  Keeps exact copies of folders on other disks, NAS mounts or network shares.
  Realtime, scheduled or manual jobs; atomic copies with retries; delete safety
  limits; dashboard at http://127.0.0.1:8737.

@@ -65,7 +65,7 @@ $binQuoted = '"' + $bin + '"'
 & sc.exe create $ServiceName binPath= $binQuoted start= auto DisplayName= $DisplayName
 if ($LASTEXITCODE -ne 0) { throw "sc create failed: $LASTEXITCODE" }
 
-sc.exe description $ServiceName "One-way folder mirror service (Backup Mirror). Data: $DataRoot" | Out-Null
+sc.exe description $ServiceName "Folder sync and backup service (Backup Mirror). Data: $DataRoot" | Out-Null
 sc.exe failure $ServiceName reset= 86400 actions= restart/5000/restart/10000/restart/30000 | Out-Null
 
 if ($StartService -eq "1") {
