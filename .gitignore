@@ -24,11 +24,9 @@ Thumbs.db
 *~
 
 ## Secrets — never commit
-**/github.txt
 **/secrets.json
 **/*.secret
 **/*.token
-backupmirror_notes.txt
 .secrets/
 .env
 .env.*
@@ -42,5 +40,5 @@ dist/
 publish-installer/
 installer/*.build.iss
 
-## Private owner notes (machine, network, credential locations)
-memory.local.md
+## Machine-specific notes (installed copy, credentials, local paths) never go in the public repo
+*.local.md
