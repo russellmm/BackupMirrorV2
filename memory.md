@@ -43,6 +43,12 @@ password from `BM_SUDO_PASSWORD_FILE` for unattended runs.
   rebuilding, copy them to `bin/Debug/net8.0/wwwroot`.
 - **Upgrade an installed copy:** `dist\BackupMirror-Setup-<ver>.exe /SILENT /SUPPRESSMSGBOXES /NORESTART`
   (needs elevation). Data and jobs are kept.
+- **Release:** bump the version; run tests on Windows and Linux; build the installer and Linux packages;
+  write `dist/SHA256SUMS-<ver>.txt` (`sha256sum` of the three packages); commit and push; create the
+  GitHub release (tag `v<ver>` on that commit) with the four files. No `gh` CLI is assumed: the REST API
+  with curl works, with the token passed on stdin (`curl -K -`), never on the command line.
+  Build after committing, so the version string's commit ID matches the tag.
+- **`dist/`** is untracked build output; keep only the current release there (older ones are on GitHub).
 - **Commits:** use the GitHub noreply identity, never a real name or personal email.
 - **Public repo:** never commit tokens, passwords, job data (`jobs.json`, `state.json`), `.smoke/`, or
   anyone's hosts, shares or local paths. Builds use a PathMap (Directory.Build.props) so binaries don't embed
@@ -67,6 +73,8 @@ password from `BM_SUDO_PASSWORD_FILE` for unattended runs.
 
 - On a machine where Backup Mirror is installed, never `taskkill /IM BackupMirror.Service.exe`: it also
   kills the installed service. Stop test copies by PID.
+- A silent install (`/SILENT`) doesn't restart the tray app; start `BackupMirror.exe --tray` from the
+  install folder afterwards.
 - The Windows service runs as SYSTEM: drive letters mapped by a user (e.g. `X:`) are invisible to it.
   Use UNC paths plus the job's share sign-in.
 - `.gitignore` once hid `SecretProtector.cs` through a broad `*secret*` rule; keep ignore rules narrow.
