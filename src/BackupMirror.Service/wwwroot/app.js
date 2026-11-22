@@ -571,7 +571,7 @@ function emptyHtml() {
       <circle cx="46" cy="98" r="3" fill="#22d3ee" opacity=".5"/><circle cx="134" cy="98" r="3" fill="#8b5cf6" opacity=".5"/>
     </svg></div>
     <h3>No mirrors yet</h3>
-    <p>A mirror keeps an exact copy of a folder somewhere else: another disk, a NAS or a network share. New and changed files are copied; deleted files are removed.</p>
+    <p>A mirror keeps a copy of a folder somewhere else: another disk, a NAS or a network share. You choose which way it syncs and whether it copies, updates and deletes, and Compare shows every change first.</p>
     <button class="btn primary lg" data-action="new-job">${icon('plus')}Create your first mirror</button>
   </div>`;
 }
@@ -913,7 +913,7 @@ function openEditor(job) {
     <div class="drawer" role="dialog" aria-modal="true" aria-label="${isNew ? 'New mirror' : 'Edit mirror'}">
       <div class="drawer-head">
         <div class="mode-tile mode-${f.mode}" id="ed-tile">${icon(MODES[f.mode].icon)}</div>
-        <div><h2>${isNew ? 'New mirror' : 'Edit mirror'}</h2><div class="hint">${isNew ? 'Keep an exact copy of a folder somewhere else.' : esc(job.name)}</div></div>
+        <div><h2>${isNew ? 'New mirror' : 'Edit mirror'}</h2><div class="hint">${isNew ? 'Keep a copy of a folder somewhere else.' : esc(job.name)}</div></div>
         <button class="icon-btn" data-ed="close" aria-label="Close">${icon('x')}</button>
       </div>
       <div class="drawer-body">

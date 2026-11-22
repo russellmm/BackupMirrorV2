@@ -40,7 +40,8 @@ Installed-Size: $SIZE_KB
 Depends: libc6, libgcc-s1, libstdc++6, zlib1g, libssl3 | libssl3t64, libicu-dev | libicu74 | libicu76 | libicu72 | libicu70
 Homepage: https://github.com/russellmm/BackupMirrorV2
 Description: Folder sync and backup service with a web dashboard
- Keeps exact copies of folders on other disks, NAS mounts or network shares.
+ Keeps copies of folders on other disks, NAS mounts or network shares: exact
+ mirrors, add-only backups or restores, with a compare preview.
  Realtime, scheduled or manual jobs; atomic copies with retries; delete safety
  limits; dashboard at http://127.0.0.1:8737.
 EOF

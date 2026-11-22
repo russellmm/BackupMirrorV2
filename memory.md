@@ -1,6 +1,6 @@
 # Backup Mirror — developer notes
 
-**Version:** 2.1.4 · **Repo:** https://github.com/russellmm/BackupMirrorV2 (branch `main`)
+**Version:** 2.1.5 · **Repo:** https://github.com/russellmm/BackupMirrorV2 (branch `main`)
 **Behaviour/API reference:** `docs/spec/backup-mirror.md` · **Purpose/scope:** `docs/intent/backup-mirror.md`
 **v1 history (WPF era):** `docs/history/`
 Machine-specific notes (installed copy, credentials, local paths) belong in an untracked `*.local.md`
@@ -90,9 +90,9 @@ password from `BM_SUDO_PASSWORD_FILE` for unattended runs.
 - **2.1.4:** tray dashboard window remembers position, size and maximized state
   (`%LOCALAPPDATA%\BackupMirror\window.json`; off-screen positions ignored).
 
-- **Unreleased (main):** README, intent doc, dashboard help text and service/package descriptions
-  reworded: the product is folder sync/backup with a chosen direction and change kinds, not only an
-  exact one-way mirror. Ships with the next version.
+- **2.1.5:** wording only. README, intent doc, dashboard help card and empty state, and the
+  service/package descriptions describe folder sync/backup with a chosen direction and change kinds
+  (not only an exact one-way mirror).
 
 ## Ideas not done
 

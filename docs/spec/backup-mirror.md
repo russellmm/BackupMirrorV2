@@ -1,6 +1,6 @@
 # Spec: Backup Mirror v2
 
-**Status:** Implemented (2.1.4, 2026-11-21)
+**Status:** Implemented (2.1.5, 2026-11-21)
 **Intent:** [../intent/backup-mirror.md](../intent/backup-mirror.md) · v1 spec: [../history/v1-spec.md](../history/v1-spec.md)
 
 ## 1. Architecture
