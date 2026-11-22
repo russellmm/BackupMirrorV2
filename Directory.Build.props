@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <Version>2.1.4</Version>
+    <Authors>russellmm</Authors>
+    <Product>Backup Mirror</Product>
+    <LangVersion>latest</LangVersion>
+    <!-- Don't embed this machine's folder paths in binaries/PDBs (repo is public, releases are downloaded). -->
+    <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=/_/</PathMap>
+  </PropertyGroup>
+</Project>

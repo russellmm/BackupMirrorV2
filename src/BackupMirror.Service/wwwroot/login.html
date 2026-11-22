@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Sign in · Backup Mirror</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="app.css">
+  <script src="theme.js"></script>
+</head>
+<body>
+  <div class="backdrop-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="login-wrap">
+    <form class="login" id="login">
+      <div class="brand"><img src="favicon.svg" alt="" class="brand-mark"><div><div class="brand-name">Backup Mirror</div><div class="brand-sub">Remote dashboard</div></div></div>
+      <div>
+        <h1>Sign in</h1>
+        <p>Enter the access key from the machine running the service.</p>
+      </div>
+      <div class="field">
+        <label for="key">Access key</label>
+        <input class="input mono" id="key" autocomplete="current-password" type="password" autofocus required>
+        <div class="hint">Windows: <span class="mono">C:\ProgramData\BackupMirror\access.key</span><br>Linux: <span class="mono">sudo cat /var/lib/backupmirror/access.key</span></div>
+      </div>
+      <div class="err" id="err"></div>
+      <button class="btn primary lg" type="submit">Sign in</button>
+    </form>
+  </div>
+  <script src="login.js"></script>
+</body>
+</html>

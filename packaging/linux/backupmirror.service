@@ -1,0 +1,28 @@
+[Unit]
+Description=Backup Mirror - one-way folder mirroring with a web dashboard
+Documentation=https://github.com/russellmm/BackupMirrorV2
+# Network shares (cifs/nfs) must be mounted before mirroring starts.
+After=network-online.target remote-fs.target local-fs.target
+Wants=network-online.target
+
+[Service]
+Type=notify
+ExecStart=/opt/backupmirror/BackupMirror.Service
+WorkingDirectory=/opt/backupmirror
+Environment=BACKUPMIRROR_DATA=/var/lib/backupmirror
+Environment=DOTNET_gcServer=0
+Environment=DOTNET_CLI_TELEMETRY_OPTOUT=1
+StateDirectory=backupmirror
+StateDirectoryMode=0700
+# Runs as root so it can read any source folder; restrict with User= if your sources allow it.
+User=root
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=30
+LimitNOFILE=65536
+Nice=5
+IOSchedulingClass=best-effort
+IOSchedulingPriority=6
+
+[Install]
+WantedBy=multi-user.target
