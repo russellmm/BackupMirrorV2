@@ -81,6 +81,7 @@ cp -a "$WORK/payload/." "$TARDIR/opt/backupmirror/"
 cp "$LNX/backupmirror.service" "$LNX/60-backupmirror.conf" "$LNX/install.sh" "$LNX/uninstall.sh" "$TARDIR/"
 chmod +x "$TARDIR/install.sh" "$TARDIR/uninstall.sh"
 TARFILE="$OUT/backupmirror-${VER}-linux-${ARCH}.tar.gz"
-tar -C "$WORK" -czf "$TARFILE" "backupmirror-$VER"
+# Record entries as root:root (numeric) so the build machine's user name never ends up in the archive.
+tar --owner=0 --group=0 --numeric-owner -C "$WORK" -czf "$TARFILE" "backupmirror-$VER"
 
 ls -la "$DEBFILE" "$TARFILE"
