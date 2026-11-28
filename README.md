@@ -78,6 +78,8 @@ share's network path instead (`\\nas\backups\Photos`):
 - Type or paste `X:\…` and the check under the field offers a one-click **Use \\server\share\…** fix.
 - If a share needs a password, the picker asks for it and stores it with the mirror (encrypted with
   Windows DPAPI). You can also set it under *Network share sign-in* in the mirror settings.
+- A mirror without its own sign-in reuses the one saved on another mirror for the same share (or the
+  same server). The service reconnects before every run, so shares keep working after a reboot.
 
 On Linux, mount shares in `/etc/fstab` (cifs/nfs) and pick the mount folder.
 

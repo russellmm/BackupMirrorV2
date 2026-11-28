@@ -24,3 +24,37 @@ public class UncShareConnectorTests
         UncShareConnector.IsUncPath(path).Should().Be(expected);
     }
 }
+
+public class ShareSignInTests
+{
+    private static BackupMirror.Core.Models.Job J(string dest, string? user = null) =>
+        new() { Id = Guid.NewGuid(), Name = dest, SourcePath = @"C:\src", DestinationPath = dest, DestinationUserName = user };
+
+    [Fact]
+    public void OwnSignInWins()
+    {
+        var self = J(@"\\nas\a\x", "me");
+        var other = J(@"\\nas\a\y", "other");
+        ShareSignIn.FindDonor(new[] { other, self }, self, self.DestinationPath).Should().BeSameAs(self);
+    }
+
+    [Fact]
+    public void BorrowsSameShareBeforeSameServer()
+    {
+        var self = J(@"\\nas\a\new");
+        var server = J(@"\\NAS\b\x", "srv");
+        var share = J(@"\\nas\A\y", "share");
+        ShareSignIn.FindDonor(new[] { self, server, share }, self, self.DestinationPath).Should().BeSameAs(share);
+    }
+
+    [Fact]
+    public void FallsBackToSameServer_NoneForOtherServers()
+    {
+        var self = J(@"\\nas\a\new");
+        var server = J(@"\\nas\b\x", "srv");
+        var elsewhere = J(@"\\other\a\x", "x");
+        ShareSignIn.FindDonor(new[] { self, elsewhere, server }, self, self.DestinationPath).Should().BeSameAs(server);
+        ShareSignIn.FindDonor(new[] { self, elsewhere }, self, self.DestinationPath).Should().BeNull();
+        ShareSignIn.FindDonor(new[] { server }, null, @"C:\local").Should().BeNull();
+    }
+}

@@ -506,23 +506,39 @@ public sealed class JobManager
         PublishJob(job);
     }
 
-    private static string? EnsureDestinationAccess(Job job)
+    private string? EnsureDestinationAccess(Job job)
     {
         if (!UncShareConnector.IsUncPath(job.DestinationPath))
             return null;
 
+        var (user, password, error) = ResolveShareSignIn(job, job.DestinationPath);
+        return error ?? UncShareConnector.EnsureConnected(job.DestinationPath, user, password);
+    }
+
+    /// <summary>
+    /// The sign-in for a share: the job's own, else one saved on another job for the same share or server.
+    /// Called before every run, compare and browse, so access is re-established after a reboot.
+    /// </summary>
+    public (string? User, string? Password, string? Error) ResolveShareSignIn(Job? job, string path)
+    {
+        var donor = ShareSignIn.FindDonor(_jobs, job, path);
+        if (donor is null)
+            return (null, null, null);
+
         string? password = null;
         try
         {
-            if (!string.IsNullOrWhiteSpace(job.DestinationPasswordProtected))
-                password = SecretProtector.Unprotect(job.DestinationPasswordProtected);
+            if (!string.IsNullOrWhiteSpace(donor.DestinationPasswordProtected))
+                password = SecretProtector.Unprotect(donor.DestinationPasswordProtected);
         }
         catch (Exception ex)
         {
-            return $"Could not decrypt the saved share password ({ex.Message}). Re-enter it on the job.";
+            return (null, null, $"Could not decrypt the share password saved on '{donor.Name}' ({ex.Message}). Re-enter it on that job.");
         }
 
-        return UncShareConnector.EnsureConnected(job.DestinationPath, job.DestinationUserName, password);
+        if (!ReferenceEquals(donor, job))
+            _logger.LogDebug("Using the share sign-in saved on '{Donor}' for {Path}", donor.Name, path);
+        return (donor.DestinationUserName, password, null);
     }
 
     // ------------------------------------------------------------------ views

@@ -171,7 +171,7 @@ public static class ApiEndpoints
             if (NetworkLocations.ToUncIfMapped(path) is { } unc) path = unc;
             if (UncShareConnector.IsUncPath(path))
             {
-                var (user, password) = ShareCredentials(input.UserName, input.Password, input.JobId, jobs);
+                var (user, password) = ShareCredentials(input.UserName, input.Password, input.JobId, jobs, path);
                 if (user is not null)
                 {
                     var err = await Task.Run(() => UncShareConnector.EnsureConnected(path, user, password))
@@ -193,16 +193,10 @@ public static class ApiEndpoints
         api.MapPost("/fs/check", (PathCheckInput input, JobManager jobs) =>
         {
             var destination = string.Equals(input.Kind, "destination", StringComparison.OrdinalIgnoreCase);
-            if (destination && UncShareConnector.IsUncPath(input.Path) && !string.IsNullOrWhiteSpace(input.UserName))
+            if (destination && UncShareConnector.IsUncPath(input.Path))
             {
-                var password = input.Password;
-                if (password is null && input.JobId is { } jid && jobs.Find(jid)?.DestinationPasswordProtected is { } saved)
-                {
-                    try { password = SecretProtector.Unprotect(saved); }
-                    catch { /* fall through to a connect error */ }
-                }
-
-                if (UncShareConnector.EnsureConnected(input.Path, input.UserName, password) is { } err)
+                var (user, password) = ShareCredentials(input.UserName, input.Password, input.JobId, jobs, input.Path);
+                if (user is not null && UncShareConnector.EnsureConnected(input.Path, user, password) is { } err)
                     return new PathCheckResult(false, false, null, err, null, null);
             }
 
@@ -244,18 +238,24 @@ public static class ApiEndpoints
         }
     }
 
-    private static (string? User, string? Password) ShareCredentials(string? user, string? password, Guid? jobId, JobManager jobs)
+    private static (string? User, string? Password) ShareCredentials(string? user, string? password, Guid? jobId, JobManager jobs, string path)
     {
         var job = jobId is { } id ? jobs.Find(id) : null;
-        user = string.IsNullOrWhiteSpace(user) ? job?.DestinationUserName : user.Trim();
-        if (user is null) return (null, null);
-        if (string.IsNullOrEmpty(password) && job?.DestinationPasswordProtected is { } saved)
+        if (!string.IsNullOrWhiteSpace(user))
         {
-            try { password = SecretProtector.Unprotect(saved); }
-            catch { /* connect will report the failure */ }
+            user = user.Trim();
+            if (string.IsNullOrEmpty(password) && job?.DestinationPasswordProtected is { } saved &&
+                string.Equals(job.DestinationUserName, user, StringComparison.OrdinalIgnoreCase))
+            {
+                try { password = SecretProtector.Unprotect(saved); }
+                catch { /* connect will report the failure */ }
+            }
+            return (user, password);
         }
 
-        return (user, password);
+        // No sign-in typed: use the job's own, or one saved on another job for this share/server.
+        var (u, p, _) = jobs.ResolveShareSignIn(job, path);
+        return (u, p);
     }
 
     private static IResult NotFound() => Results.Json(new ApiError("Job not found."), statusCode: 404);

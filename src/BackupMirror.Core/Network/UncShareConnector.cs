@@ -60,8 +60,8 @@ public static class UncShareConnector
                 return $"Cannot access '{share}' without credentials: {ex.Message}";
             }
 
-            return $"Cannot access '{share}'. Add share username/password on the job, " +
-                   "or reinstall the service with -RunAsCurrentUser if your Windows login already has access.";
+            return $"Cannot access '{share}'. No share sign-in is saved for this server. Add the share's user name " +
+                   "and password under “Network share sign-in” on this job (other jobs on the same server will reuse it).";
         }
 
         var result = Connect(share, userName, password ?? "");

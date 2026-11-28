@@ -121,7 +121,7 @@ All under `/api`; JSON camelCase; enums as camelCase strings. Mutating calls nee
 | POST | `/sync-all` | run every enabled mirror |
 | GET | `/history?jobId=&limit=` | run history |
 | GET | `/fs/roots` | drives/mounts, plus network shares known to signed-in users (Windows) |
-| POST | `/fs/list` | `{path, userName?, password?, jobId?}`: folders; connects to a share with the given or saved sign-in; 15 s timeout |
+| POST | `/fs/list` | `{path, userName?, password?, jobId?}`: folders; connects to a share with the given or saved sign-in (a job without one borrows the sign-in saved on another job for the same share, else the same server); 15 s timeout |
 | POST | `/fs/check` | `{path, kind, …}`: exists/writable/free space; `suggestion` = UNC path for a mapped drive letter |
 | POST | `/fs/mkdir` | create a folder (picker) |
 | GET | `/logs?lines=` | tail of the service log |

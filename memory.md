@@ -1,6 +1,6 @@
 # Backup Mirror — developer notes
 
-**Version:** 2.1.5 · **Repo:** https://github.com/russellmm/BackupMirrorV2 (branch `main`)
+**Version:** 2.1.6 · **Repo:** https://github.com/russellmm/BackupMirrorV2 (branch `main`)
 **Behaviour/API reference:** `docs/spec/backup-mirror.md` · **Purpose/scope:** `docs/intent/backup-mirror.md`
 **v1 history (WPF era):** `docs/history/`
 Machine-specific notes (installed copy, credentials, local paths) belong in an untracked `*.local.md`
