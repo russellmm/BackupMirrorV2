@@ -135,7 +135,7 @@ public sealed class JsonJobStore
         if (string.IsNullOrWhiteSpace(job.DestinationPath))
             throw new ArgumentException("Destination path is required.", nameof(job));
         if (job.Direction == SyncDirection.DestinationToSource && job.Mode != SyncMode.ManualOnly)
-            throw new ArgumentException("\"Sync to Destination\" changes the source folder, so it is only allowed for manual jobs.", nameof(job));
+            throw new ArgumentException("\"Sync using Destination\" changes the source folder, so it is only allowed for manual jobs.", nameof(job));
         if (!job.CopyMissing && !job.UpdateChanged && !job.DeleteExtra)
             throw new ArgumentException("Choose at least one kind of change (copy, update or delete).", nameof(job));
         if (job.KeepRemovedDays is < 0 or > 3650)

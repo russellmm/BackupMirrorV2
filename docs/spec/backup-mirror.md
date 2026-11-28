@@ -50,8 +50,8 @@ need a time; at least one change kind; `direction = destinationToSource` only wi
 
 ## 3. Sync behaviour
 
-**Direction.** `sourceToDestination` ("Sync to Source", default): the destination is changed to match
-the source. `destinationToSource` ("Sync to Destination"): the source is changed to match the
+**Direction.** `sourceToDestination` ("Sync using Source", default): the destination is changed to match
+the source. `destinationToSource` ("Sync using Destination"): the source is changed to match the
 destination (restore). The folder being read is never written.
 
 **Planning** (`MirrorPlanner`): walk both trees; match by relative path (case-insensitive on

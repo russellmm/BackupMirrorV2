@@ -5,8 +5,8 @@ another disk, a NAS or a network share, and a web dashboard lets you set it up, 
 
 Each mirror is a pair of folders, a **source** and a **destination**, and you decide what a sync does:
 
-- **Which way.** *Sync to Source* changes the destination to match the source (the normal backup).
-  *Sync to Destination* changes the source to match the destination, e.g. to restore from a backup
+- **Which way.** *Sync using Source* changes the destination to match the source (the normal backup).
+  *Sync using Destination* changes the source to match the destination, e.g. to restore from a backup
   (run by hand only, never automatically).
 - **What changes.** Any mix of *copy missing files*, *update changed files* and *delete extra files*.
   With all three on, the result is an exact mirror; turn *delete extra* off for a backup that only

@@ -26,7 +26,7 @@ per mirror, the owner can instead sync the other way (restore) or limit which ki
 - Per-job modes: realtime, scheduled (times of day on chosen weekdays), manual (Sync now).
 - Global Pause/Resume all, plus pausing a single mirror.
 - Safety: hold for review when a run would delete more than a per-job number of files (default 10).
-- OpenDiff parity (owner's own compare/sync tool): Sync to Source / Sync to Destination, include
+- OpenDiff parity (owner's own compare/sync tool): Sync using Source / Sync using Destination, include
   subfolders, include hidden/system, copy missing / update changed / delete extra, and a colour-coded
   **Compare** preview before applying.
 - Network shares: per-job share sign-in on Windows (the service cannot use the user's mapped drive

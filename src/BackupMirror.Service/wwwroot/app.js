@@ -612,7 +612,7 @@ function jobCardHtml(j) {
       <div class="mode-tile mode-${j.mode}" title="${esc(mode.label)}">${icon(mode.icon)}</div>
       <div class="job-title">
         <h3 title="${esc(j.name)}">${esc(j.name)}</h3>
-        <div class="job-meta"><span>${esc(mode.label)}</span>${j.direction === 'destinationToSource' ? '<span class="sep"></span><span class="rev-tag">Sync to Destination</span>' : ''}${j.excludes.length ? `<span class="sep"></span><span title="${esc(j.excludes.join(', '))}">${j.excludes.length} exclusion${j.excludes.length > 1 ? 's' : ''}</span>` : ''}${j.lastRun && j.lastRun.filesScanned ? `<span class="sep"></span><span>${nf.format(j.lastRun.filesScanned)} files</span>` : ''}</div>
+        <div class="job-meta"><span>${esc(mode.label)}</span>${j.direction === 'destinationToSource' ? '<span class="sep"></span><span class="rev-tag">Sync using Destination</span>' : ''}${j.excludes.length ? `<span class="sep"></span><span title="${esc(j.excludes.join(', '))}">${j.excludes.length} exclusion${j.excludes.length > 1 ? 's' : ''}</span>` : ''}${j.lastRun && j.lastRun.filesScanned ? `<span class="sep"></span><span>${nf.format(j.lastRun.filesScanned)} files</span>` : ''}</div>
       </div>
       <span class="badge ${sk}"><span class="dot"></span>${esc(st.label)}</span>
       <div class="menu-wrap">
@@ -864,7 +864,7 @@ function settingsHtml() {
     </div>
     <div class="card"><h3>${icon('info')}How mirroring works</h3>
       <ul class="muted" style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px">
-        <li>Each sync reads one folder and writes the other. <em>Sync to Source</em> makes the destination match the source; <em>Sync to Destination</em> (manual only) does the reverse, e.g. a restore.</li>
+        <li>Each sync reads one folder and writes the other. <em>Sync using Source</em> makes the destination match the source; <em>Sync using Destination</em> (manual only) does the reverse, e.g. a restore.</li>
         <li>Per mirror, choose what a sync does: copy missing files, update changed files, delete extra files. All three give an exact mirror; without delete it is a backup that only adds and updates.</li>
         <li>Use <em>Compare</em> to see every change before it happens.</li>
         <li>Files are copied to a temporary name and swapped in when complete, so an interrupted copy never leaves a broken file.</li>
@@ -998,7 +998,7 @@ function openEditor(job) {
 
   const renderModes = () => {
     $('#ed-modes', root).innerHTML = Object.entries(MODES).map(([k, m]) => `
-      <button type="button" class="mode-card mode-${k} ${f.mode === k ? 'on' : ''} ${f.direction === 'destinationToSource' && k !== 'manualOnly' ? 'off' : ''}" data-mode="${k}" ${f.direction === 'destinationToSource' && k !== 'manualOnly' ? 'title="Sync to Destination changes your source folder, so it only runs when you start it."' : ''}>
+      <button type="button" class="mode-card mode-${k} ${f.mode === k ? 'on' : ''} ${f.direction === 'destinationToSource' && k !== 'manualOnly' ? 'off' : ''}" data-mode="${k}" ${f.direction === 'destinationToSource' && k !== 'manualOnly' ? 'title="Sync using Destination changes your source folder, so it only runs when you start it."' : ''}>
         <span class="tick">${icon('check')}</span>
         <div class="mode-tile mode-${k}">${icon(m.icon)}</div><b>${m.label}</b><span>${m.desc}</span>
       </button>`).join('');
@@ -1011,8 +1011,8 @@ function openEditor(job) {
   const renderDirs = () => {
     const src = baseName(f.sourcePath) || 'source', dst = baseName(destination()) || 'mirror';
     $('#ed-dirs', root).innerHTML = [
-      ['sourceToDestination', 'Sync to Source', `Make the mirror match the source. <b>${esc(src)}</b> is only read.`, 'arrow-right'],
-      ['destinationToSource', 'Sync to Destination', `Make the source match the mirror, e.g. to restore. <b>${esc(dst)}</b> is only read. Manual runs only.`, 'arrow-left'],
+      ['sourceToDestination', 'Sync using Source', `Make the mirror match the source. <b>${esc(src)}</b> is only read.`, 'arrow-right'],
+      ['destinationToSource', 'Sync using Destination', `Make the source match the mirror, e.g. to restore. <b>${esc(dst)}</b> is only read. Manual runs only.`, 'arrow-left'],
     ].map(([k, label, desc, ic]) => `
       <button type="button" class="dir-card ${f.direction === k ? 'on' : ''} ${k === 'destinationToSource' ? 'rev' : ''}" data-dir="${k}">
         <span class="tick">${icon('check')}</span>${icon(ic)}<b>${label}</b><span>${desc}</span>
@@ -1175,7 +1175,7 @@ function openEditor(job) {
     const t = e.target.closest('button');
     if (!t) return;
     if (t.dataset.mode) {
-      if (t.classList.contains('off')) { toast('info', 'Manual only', 'Sync to Destination changes your source folder, so it only runs when you start it.'); return; }
+      if (t.classList.contains('off')) { toast('info', 'Manual only', 'Sync using Destination changes your source folder, so it only runs when you start it.'); return; }
       f.mode = t.dataset.mode; renderModes(); return;
     }
     if (t.dataset.dir) {
@@ -1427,8 +1427,8 @@ function openCompare(job) {
         <button class="icon-btn" data-c="close" style="margin-left:auto">${icon('x')}</button></div>
       <div class="cmp-opts">
         <div class="seg txt" role="radiogroup" aria-label="Mode">
-          <button data-c="dir" data-v="sourceToDestination">Sync to Source</button>
-          <button data-c="dir" data-v="destinationToSource">Sync to Destination</button>
+          <button data-c="dir" data-v="sourceToDestination">Sync using Source</button>
+          <button data-c="dir" data-v="destinationToSource">Sync using Destination</button>
         </div>
         <label class="check"><input type="checkbox" data-o="includeSubfolders"><span></span>Include subfolders</label>
         <label class="check"><input type="checkbox" data-o="includeHidden"><span></span>Include hidden/system files</label>

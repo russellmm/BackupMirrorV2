@@ -1,6 +1,6 @@
 # Backup Mirror — developer notes
 
-**Version:** 2.1.6 · **Repo:** https://github.com/russellmm/BackupMirrorV2 (branch `main`)
+**Version:** 2.1.7 · **Repo:** https://github.com/russellmm/BackupMirrorV2 (branch `main`)
 **Behaviour/API reference:** `docs/spec/backup-mirror.md` · **Purpose/scope:** `docs/intent/backup-mirror.md`
 **v1 history (WPF era):** `docs/history/`
 Machine-specific notes (installed copy, credentials, local paths) belong in an untracked `*.local.md`
@@ -56,7 +56,7 @@ password from `BM_SUDO_PASSWORD_FILE` for unattended runs.
 
 ## Rules that must not regress
 
-1. A sync never writes the folder it reads (no two-way sync). Sync to Destination is manual-only.
+1. A sync never writes the folder it reads (no two-way sync). Sync using Destination is manual-only.
 2. Copies are atomic (`.bmpart` → rename). Never delete under an unreadable source folder.
 3. Job config (`jobs.json`) and runtime (`state.json`) stay separate; only the service writes either.
 4. Requests during a run queue a re-run; they are never dropped.

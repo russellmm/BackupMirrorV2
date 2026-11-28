@@ -34,9 +34,9 @@ public sealed class Job
     public DateTimeOffset? CreatedUtc { get; set; }
 
     /// <summary>
-    /// Which folder is changed. <see cref="SyncDirection.SourceToDestination"/> ("Sync to Source") makes the
+    /// Which folder is changed. <see cref="SyncDirection.SourceToDestination"/> ("Sync using Source") makes the
     /// destination match the source (backup). <see cref="SyncDirection.DestinationToSource"/>
-    /// ("Sync to Destination") makes the source match the destination (restore) and is only allowed for manual jobs.
+    /// ("Sync using Destination") makes the source match the destination (restore) and is only allowed for manual jobs.
     /// </summary>
     public SyncDirection Direction { get; set; } = SyncDirection.SourceToDestination;
 
